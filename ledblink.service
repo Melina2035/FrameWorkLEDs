@@ -1,0 +1,16 @@
+# Drives the LEDs from disk activity (the kernel trigger does not fire on NVMe).
+# Managed by the panel; install with:
+#   cp ~/ledpanel/ledblink.service ~/.config/systemd/user/
+[Unit]
+Description=Blink Framework LEDs on disk activity
+# ledpanel-apply regenerates blink.json from state.json, so run after it.
+After=ledpanel-apply.service
+
+[Service]
+Type=simple
+ExecStart=%h/ledpanel/diskblink.py --config %h/.config/ledpanel/blink.json
+Restart=on-failure
+RestartSec=2
+
+[Install]
+WantedBy=default.target

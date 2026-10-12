@@ -1,0 +1,14 @@
+# Reapply the saved LED settings at login.
+#   install:  cp ~/ledpanel/ledpanel-apply.service ~/.config/systemd/user/
+#             systemctl --user enable --now ledpanel-apply.service
+[Unit]
+Description=Apply saved Framework LED settings
+After=graphical-session.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=no
+ExecStart=%h/ledpanel/ledpanel.py --apply
+
+[Install]
+WantedBy=default.target
